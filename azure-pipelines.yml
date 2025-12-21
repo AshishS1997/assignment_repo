@@ -1,5 +1,5 @@
 trigger: none
-pool: assignment_pool
+pool: assignment
 steps:
 
 - task: TerraformTask@5
