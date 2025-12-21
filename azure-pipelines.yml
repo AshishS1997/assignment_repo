@@ -1,0 +1,18 @@
+trigger: none
+pool: assignment_pool
+steps:
+
+- task: TerraformTask@5
+  displayName: terraform init
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)\dev'
+    backendServiceArm: 'assignment_connection'
+    backendAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+    backendAzureRmResourceGroupName: 'assigmnet-rg'
+    backendAzureRmStorageAccountName: 'rajnistg'
+    backendAzureRmContainerName: 'frontendvm'
+    backendAzureRmKey: 'terraform.tfstate'
+
+
