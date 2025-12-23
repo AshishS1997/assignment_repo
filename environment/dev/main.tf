@@ -40,7 +40,7 @@ module "public_ip_frontend" {
   public_ip_name      = "pip-todoapp-frontend"
   resource_group_name = "rg-todoapp"
   location            = "centralindia"
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
 }
 
 module "frontend_vm" {
@@ -60,7 +60,7 @@ module "frontend_vm" {
   frontend_ip_name     = "pip-todoapp-frontend"
   vnet_name            = "vnet-todoapp"
   frontend_subnet_name = "frontend-subnet"
-  key_vault_name       = "sonamkitijori"
+  key_vault_name       = "rajnishkitijori"
   username_secret_name = "vm-username"
   password_secret_name = "vm-password"
 }
@@ -113,7 +113,7 @@ module "frontend_vm" {
 
 module "key_vault" {
   source              = "../modules/azurerm_keyvault"
-  key_vault_name      = "sonamkitijori"
+  key_vault_name      = "rajnishkitijori"
   location            = "centralindia"
   resource_group_name = "rg-todoapp"
 }
@@ -121,7 +121,7 @@ module "key_vault" {
 module "vm_password" {
   source              = "../modules/keyvault_secret"
   depends_on          = [module.key_vault]
-  key_vault_name      = "sonamkitijori"
+  key_vault_name      = "rajnishkitijori"
   resource_group_name = "rg-todoapp"
   secret_name         = "vm-password"
   secret_value        = "P@ssw01rd@123"
@@ -130,7 +130,7 @@ module "vm_password" {
 module "vm_username" {
   source              = "../modules/keyvault_secret"
   depends_on          = [module.key_vault]
-  key_vault_name      = "sonamkitijori"
+  key_vault_name      = "rajnishkitijori"
   resource_group_name = "rg-todoapp"
   secret_name         = "vm-username"
   secret_value        = "devopsadmin"
