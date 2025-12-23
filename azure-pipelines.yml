@@ -1,42 +1,42 @@
 trigger: none
 pool: assignment
 stages:
-- stage: build_stage
-  displayName: building_stage
-  jobs:
-  - job: build
-    displayName: terraform init, vlaidate, plan
-    steps:
+# - stage: build_stage
+#   displayName: building_stage
+#   jobs:
+#   - job: build
+#     displayName: terraform init, vlaidate, plan
+#     steps:
 
-    - task: TerraformTask@5
-      displayName: terraform init
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
-        backendServiceArm: 'assignment_connection'
-        backendAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
-        backendAzureRmResourceGroupName: 'assigmnet-rg'
-        backendAzureRmStorageAccountName: 'rajnistg'
-        backendAzureRmContainerName: 'frontendvm'
-        backendAzureRmKey: 'terraform.tfstate'
+#     - task: TerraformTask@5
+#       displayName: terraform init
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'init'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+#         backendServiceArm: 'assignment_connection'
+#         backendAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+#         backendAzureRmResourceGroupName: 'assigmnet-rg'
+#         backendAzureRmStorageAccountName: 'rajnistg'
+#         backendAzureRmContainerName: 'frontendvm'
+#         backendAzureRmKey: 'terraform.tfstate'
 
 
-    - task: TerraformTask@5
-      displayName: terraform validate
-      inputs:
-        provider: 'azurerm'
-        command: 'validate'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+#     - task: TerraformTask@5
+#       displayName: terraform validate
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'validate'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
-    - task: TerraformTask@5
-      displayName: terraform plan
-      inputs:
-        provider: 'azurerm'
-        command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
-        environmentServiceNameAzureRM: 'assignment_connection'
-        environmentAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+#     - task: TerraformTask@5
+#       displayName: terraform plan
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'plan'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+#         environmentServiceNameAzureRM: 'assignment_connection'
+#         environmentAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
 
 # - stage: validation_stage_apply
 #   displayName: validation_apply
