@@ -85,6 +85,19 @@ stages:
     # dependsOn: Deployment
     steps:
     - task: TerraformTask@5
+      displayName: terraform init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'assignment_connection'
+        backendAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+        backendAzureRmResourceGroupName: 'assigmnet-rg'
+        backendAzureRmStorageAccountName: 'rajnistg'
+        backendAzureRmContainerName: 'frontendvm'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTask@5
       inputs:
         provider: 'azurerm'
         command: 'destroy'
