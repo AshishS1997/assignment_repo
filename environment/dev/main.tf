@@ -50,7 +50,7 @@ module "frontend_vm" {
   resource_group_name  = "rg-todoapp"
   location             = "centralindia"
   vm_name              = "vm-frontend2"
-  vm_size              = "Standard_B1s"
+  vm_size              = "Standard_B1ms"
   admin_username       = "devopsadmin"
   image_publisher      = "Canonical"
   image_offer          = "0001-com-ubuntu-server-focal"
