@@ -8,20 +8,15 @@ stages:
       displayName: checking_code_with_tflint
       continueOnError: false
       steps:
-      # - task: PowerShell@2
-      #   inputs:
-      #     targetType: 'inline'
-      #     script: |
-      #       curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-      #             tflint --version
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
           script: |
-            cd '$(System.DefaultWorkingDirectory)\environment\dev'
-                  tflint --version
-                  tflint --init
-                  tflint --recursive
+            winget install TerraformLinters.tflint     
+            ls   
+            tflint
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+
 
 - stage: build_stage
   displayName: building_stage
