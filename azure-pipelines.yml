@@ -1,42 +1,63 @@
 trigger: none
 pool: assignment
 stages:
-# - stage: build_stage
-#   displayName: building_stage
-#   jobs:
-#   - job: build
-#     displayName: terraform init, vlaidate, plan
-#     steps:
+- stage:
+  displayName: tflint_check
+  jobs:
+    - job: tflint_tool_check
+      displayName: checking_code_with_tflint
+      continueOnError: false
+      steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+                  tflint --version
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            cd '$(System.DefaultWorkingDirectory)\environment\dev'
+                  tflint --init
+                  tflint --recursive
 
-#     - task: TerraformTask@5
-#       displayName: terraform init
-#       inputs:
-#         provider: 'azurerm'
-#         command: 'init'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
-#         backendServiceArm: 'assignment_connection'
-#         backendAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
-#         backendAzureRmResourceGroupName: 'assigmnet-rg'
-#         backendAzureRmStorageAccountName: 'rajnistg'
-#         backendAzureRmContainerName: 'frontendvm'
-#         backendAzureRmKey: 'terraform.tfstate'
+- stage: build_stage
+  displayName: building_stage
+  jobs:
+  - job: build
+    displayName: terraform init, vlaidate, plan
+    steps:
+
+    - task: TerraformTask@5
+      displayName: terraform init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'assignment_connection'
+        backendAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+        backendAzureRmResourceGroupName: 'assigmnet-rg'
+        backendAzureRmStorageAccountName: 'rajnistg'
+        backendAzureRmContainerName: 'frontendvm'
+        backendAzureRmKey: 'terraform.tfstate'
 
 
-#     - task: TerraformTask@5
-#       displayName: terraform validate
-#       inputs:
-#         provider: 'azurerm'
-#         command: 'validate'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+    - task: TerraformTask@5
+      displayName: terraform validate
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
-#     - task: TerraformTask@5
-#       displayName: terraform plan
-#       inputs:
-#         provider: 'azurerm'
-#         command: 'plan'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
-#         environmentServiceNameAzureRM: 'assignment_connection'
-#         environmentAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+    - task: TerraformTask@5
+      displayName: terraform plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        environmentServiceNameAzureRM: 'assignment_connection'
+        environmentAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
 
 # - stage: validation_stage_apply
 #   displayName: validation_apply
@@ -77,30 +98,32 @@ stages:
 #           environmentServiceNameAzureRM: 'assignment_connection'
 #           environmentAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
 
-- stage: infra_destroy
-  displayName: for_destroying_infra
-  jobs:
-  - job: infra_destroy
-    displayName: for destroying infra
-    # dependsOn: Deployment
-    steps:
-    - task: TerraformTask@5
-      displayName: terraform init
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
-        backendServiceArm: 'assignment_connection'
-        backendAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
-        backendAzureRmResourceGroupName: 'assigmnet-rg'
-        backendAzureRmStorageAccountName: 'rajnistg'
-        backendAzureRmContainerName: 'frontendvm'
-        backendAzureRmKey: 'terraform.tfstate'
+# - stage: infra_destroy
+#   displayName: for_destroying_infra
+#   jobs:
+#   - job: infra_destroy
+#     displayName: for destroying infra
+#     # dependsOn: Deployment
+#     steps:
+#     - task: TerraformTask@5
+#       displayName: terraform init
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'init'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+#         backendServiceArm: 'assignment_connection'
+#         backendAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+#         backendAzureRmResourceGroupName: 'assigmnet-rg'
+#         backendAzureRmStorageAccountName: 'rajnistg'
+#         backendAzureRmContainerName: 'frontendvm'
+#         backendAzureRmKey: 'terraform.tfstate'
 
-    - task: TerraformTask@5
-      inputs:
-        provider: 'azurerm'
-        command: 'destroy'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
-        environmentServiceNameAzureRM: 'assignment_connection'
-        environmentAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+#     - task: TerraformTask@5
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'destroy'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+#         environmentServiceNameAzureRM: 'assignment_connection'
+#         environmentAzureRmOverrideSubscriptionID: 'af6aa2e9-539c-4948-b07c-d9aef5cc7c92'
+
+
