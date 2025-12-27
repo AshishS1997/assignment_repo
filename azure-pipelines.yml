@@ -13,7 +13,7 @@ stages:
           targetType: 'inline'
           script: |
             winget install --id TerraformLinters.TFLint --source winget --accept-package-agreements --accept-source-agreements
-            tflint -- version
+            tflint --version
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
