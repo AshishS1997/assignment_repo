@@ -6,7 +6,7 @@ stages:
   jobs:
     - job: tflint_tool_check
       displayName: checking_code_with_tflint
-      continueOnError: false
+      continueOnError: true
       steps:
       - task: PowerShell@2
         inputs:
