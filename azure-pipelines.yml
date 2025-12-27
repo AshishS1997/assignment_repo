@@ -11,10 +11,15 @@ stages:
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
-          workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
           script: |
-            winget install TerraformLinters.tflint     
-            ls   
+            winget install --id TerraformLinters.TFLint --source winget --accept-package-agreements --accept-source-agreements
+            tflint -- version
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            cd $(Build.SourcesDirectory)
+            tflint --init
             tflint --recursive
 
 - stage: build_stage
