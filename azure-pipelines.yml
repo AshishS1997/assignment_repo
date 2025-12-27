@@ -18,7 +18,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            cd $(Build.SourcesDirectory)
+            cd $(Build.SourcesDirectory)\environment
             tflint --init
             tflint --recursive
 
